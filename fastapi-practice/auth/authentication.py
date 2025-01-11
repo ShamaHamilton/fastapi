@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+import logging
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
@@ -21,7 +22,6 @@ def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depe
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Incorrect password')
 
     access_token = create_access_token(data={'sub': user.username})
-
     return {
         'access_token': access_token,
         'token_type': 'bearer',

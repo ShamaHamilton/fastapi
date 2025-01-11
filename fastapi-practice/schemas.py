@@ -1,14 +1,13 @@
 from typing import List
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class ArticleSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     title: str
     content: str
     published: bool
-
-    class Config():
-        from_attributes = True
 
 
 class UserBaseSchema(BaseModel):
@@ -18,21 +17,18 @@ class UserBaseSchema(BaseModel):
 
 
 class UserDisplaySchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     username: str
     email: str
     items: List[ArticleSchema] = []
 
-    class Config():
-        # orm_mode = True -> from_attributes = True
-        from_attributes = True
-
 
 class UserSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     username: str
-
-    class Config():
-        from_attributes = True
 
 
 class ArticleBaseSchema(BaseModel):
@@ -43,10 +39,9 @@ class ArticleBaseSchema(BaseModel):
 
 
 class ArticleDisplaySchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     title: str
     content: str
     published: bool
     user: UserSchema
-
-    class Config():
-        from_attributes = True

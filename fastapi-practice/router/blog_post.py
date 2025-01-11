@@ -49,7 +49,8 @@ def create_comment(
         ...,  # required
         min_length=10,
         max_length=50,
-        regex='^[a-z ]*$'
+        # regex='^[a-z ]*$'
+        pattern='^[a-z ]*$'
     ),
     v: Optional[List[str]] = Query(['v1.0', 'v1.1', 'v1.2']),
     comment_id: int = Path(gt=5, le=10)
