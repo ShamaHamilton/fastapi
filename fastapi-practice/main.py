@@ -3,6 +3,7 @@ import logging
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from db import models
 from db.database import engine
@@ -14,9 +15,11 @@ from router.user import router as router_user
 from router.article import router as router_article
 from router.product import router as router_product
 from auth.authentication import router as router_auth
+from router.file import router as router_file
 
 app = FastAPI()
 app.include_router(router_auth)
+app.include_router(router_file)
 app.include_router(router_user)
 app.include_router(router_article)
 app.include_router(router_product)
@@ -69,3 +72,5 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount('/files', StaticFiles(directory='files'), name='files')
