@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, BackgroundTasks, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from schemas import ProductBaseSchema
 
+from custom_log import log
 
 router = APIRouter(
     prefix='/templates',
@@ -14,7 +15,8 @@ templates = Jinja2Templates(directory='templates')
 
 
 @router.post('/products/{id}', response_class=HTMLResponse)
-def get_product(id: str, product: ProductBaseSchema, request: Request):
+def get_product(id: str, product: ProductBaseSchema, request: Request, bt: BackgroundTasks):
+    bt.add_task(log_template_call, f"Template read for pruduct with id {id}")
     return templates.TemplateResponse(
         'product.html',
         {
@@ -25,3 +27,7 @@ def get_product(id: str, product: ProductBaseSchema, request: Request):
             'price': product.price,
         }
     )
+
+
+def log_template_call(message: str):
+    log('MyAPI', message)
