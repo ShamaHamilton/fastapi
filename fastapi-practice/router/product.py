@@ -30,7 +30,7 @@ def create_product(name: str = Form(...)):
 @router.get('/all')
 async def get_all_products():
     # log('MyAPI', 'Call to get all products')
-    await time_consuming_functionality()
+    # await time_consuming_functionality()
     # return products
     data = ' '.join(products)
     response = Response(content=data, media_type='text/plain')
