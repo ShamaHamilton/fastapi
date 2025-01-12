@@ -19,8 +19,10 @@ from router.product import router as router_product
 from auth.authentication import router as router_auth
 from router.file import router as router_file
 from templates.template import router as router_templates
+from router.dependencies import router as router_dependencies
 
 app = FastAPI()
+app.include_router(router_dependencies)
 app.include_router(router_templates)
 app.include_router(router_auth)
 app.include_router(router_file)
