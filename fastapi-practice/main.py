@@ -1,7 +1,7 @@
 import logging
 import time
 
-from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, status
+from fastapi import Depends, FastAPI, HTTPException, Request, Response, WebSocket, status
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -21,7 +21,9 @@ from router.file import router as router_file
 from templates.template import router as router_templates
 from router.dependencies import router as router_dependencies
 
-app = FastAPI()
+app = FastAPI(
+    # dependencies=[Depends(any_dependency)]  # app Dependency
+)
 app.include_router(router_dependencies)
 app.include_router(router_templates)
 app.include_router(router_auth)
