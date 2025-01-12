@@ -10,3 +10,4 @@ python-jose
 aiofiles
 requests
 pytest
+jinja2

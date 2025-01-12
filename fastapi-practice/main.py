@@ -16,8 +16,10 @@ from router.article import router as router_article
 from router.product import router as router_product
 from auth.authentication import router as router_auth
 from router.file import router as router_file
+from templates.template import router as router_templates
 
 app = FastAPI()
+app.include_router(router_templates)
 app.include_router(router_auth)
 app.include_router(router_file)
 app.include_router(router_user)
@@ -74,3 +76,4 @@ app.add_middleware(
 )
 
 app.mount('/files', StaticFiles(directory='files'), name='files')
+app.mount('/templates/static', StaticFiles(directory='templates/static'), name='static')

@@ -45,3 +45,9 @@ class ArticleDisplaySchema(BaseModel):
     content: str
     published: bool
     user: UserSchema
+
+
+class ProductBaseSchema(BaseModel):
+    title: str
+    description: str
+    price: float
