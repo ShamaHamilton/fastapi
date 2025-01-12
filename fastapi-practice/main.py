@@ -1,15 +1,16 @@
 import logging
 import time
 
-from fastapi import FastAPI, HTTPException, Request, Response, status
-from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, status
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from db import models
 from db.database import engine
-
 from exceptions import StoryException
+from client import html
+
 from router.blog_get import router as router_blog_get
 from router.blog_post import router as router_blog_post
 from router.user import router as router_user
@@ -31,13 +32,31 @@ app.include_router(router_blog_post)
 
 
 logger = logging.getLogger('uvicorn.error')
-logger.setLevel(logging.DEBUG)
+# logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
+
+
+# @app.get('/')
+# def home_page():
+#     logger.debug('this is a debug message')
+#     return {'message': 'ok'}
 
 
 @app.get('/')
-def home_page():
-    logger.debug('this is a debug message')
-    return {'message': 'ok'}
+async def get():
+    return HTMLResponse(html)
+
+clients = []
+
+
+@app.websocket('/chat')
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    clients.append(websocket)
+    while True:
+        data = await websocket.receive_text()
+        for client in clients:
+            await client.send_text(data)
 
 
 @app.get('/hello')
