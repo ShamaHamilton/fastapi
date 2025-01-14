@@ -1,0 +1,24 @@
+Generic single-database configuration.
+
+
+# Alembic Command                 Details
+# alembic init <folder name>      Initialize a new, generic environment.
+# alembic init alembic
+
+# alembic revision -m <message>   Creates a new revision of the environment.
+# alembic revision -m "create phone number col on users table"
+# alembic revision --autogenerate -m "create phone number col on users table"
+
+# alembic upgrade <revision #>    Run our upgrade migration to our database.
+# alembic upgrade 5b667b40c750
+# alembic upgrade head
+
+# alembic downgrade -1            Run our downgrade migration to our database.
+
+
+1. alembic.ini: line64: sqlalchemy.url присвоить значение SQLALCHEMY_DATABASE_URL
+
+2. env.py: fileConfig: убрать if
+
+3.1 import models
+3.2 target_metadata = models.Base.metadata
