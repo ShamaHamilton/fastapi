@@ -2,8 +2,7 @@ from typing import Annotated
 
 from fastapi import Depends
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, Session, declarative_base
 
 
 # SQLite
@@ -33,5 +32,3 @@ def get_db():
 
 
 db_dependency = Annotated[Session, Depends(get_db)]
-
-# sqlite3 .\todosapp.db

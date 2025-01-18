@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from jose import JWTError, jwt
 
 from ..models import UsersModel
-from ..database import db_dependency
+from ..database import SessionLocal
 
 
 logger = logging.getLogger('uvicorn.error')
@@ -26,6 +26,17 @@ ALGORITHM = 'HS256'
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl='auth/token')  # '/auth/token'
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+db_dependency = Annotated[Session, Depends(get_db)]
 
 
 class CreateUserRequestSchema(BaseModel):

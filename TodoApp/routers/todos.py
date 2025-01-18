@@ -7,7 +7,10 @@ from ..models import TodosModel
 from ..database import db_dependency
 from .auth import get_current_user
 
-router = APIRouter(tags=['todos'])
+router = APIRouter(
+    # prefix='/todos',
+    tags=['todos']
+)
 
 user_dependency = Annotated[dict, Depends(get_current_user)]
 

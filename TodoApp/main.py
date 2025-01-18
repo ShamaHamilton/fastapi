@@ -15,9 +15,16 @@ logger.setLevel(logging.DEBUG)
 
 
 app = FastAPI()
+
+Base.metadata.create_all(bind=engine)
+
+
+@app.get('/healthy')
+def health_check():
+    return {'status': 'Healthy'}
+
+
 app.include_router(router_auth)
 app.include_router(router_todos)
 app.include_router(router_admin)
 app.include_router(router_users)
-
-Base.metadata.create_all(bind=engine)
