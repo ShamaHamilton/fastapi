@@ -1,3 +1,6 @@
 venv
 *.db
 __pycache__
+*.jpeg
+*.jpg
+*.png
