@@ -25,10 +25,16 @@ class ColorFormatter(logging.Formatter):
     red = '\x1b[38;5;196m'
     bold_red = '\x1b[31;1m'
     reset = '\x1b[0m'
-    format = "[%(asctime)s.%(msecs)03d] — %(levelname)-5s — %(module)10s:%(lineno)3d — %(message)s"
+    # format = "%(asctime)s.%(msecs)03d — %(levelname)-5s — %(module)10s:%(lineno)3d — %(message)s"
+    format = "%(levelname)-9s %(asctime)s.%(msecs)03d %(module)10s:%(lineno)3d   %(message)s"
+
+    # level = "%(levelname)-10s"
+    # format = "%(asctime)s.%(msecs)03d %(module)10s:%(lineno)3d   %(message)s"
 
     FORMATS = {
+        # logging.DEBUG: blue + level + reset + format,
         logging.DEBUG: blue + format + reset,
+        # logging.INFO: green + level + reset + format,
         logging.INFO: green + format + reset,
         logging.WARNING: yellow + format + reset,
         logging.ERROR: red + format + reset,
@@ -36,6 +42,7 @@ class ColorFormatter(logging.Formatter):
     }
 
     def format(self, record):
+        # record.levelname = 'INFO:' if record.levelname == 'INFO' else record.levelname
         record.levelname = 'WARN' if record.levelname == 'WARNING' else record.levelname
         record.levelname = 'ERROR' if record.levelname == 'CRITICAL' else record.levelname
         log_fmt = self.FORMATS.get(record.levelno)
